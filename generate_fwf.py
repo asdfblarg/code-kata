@@ -34,15 +34,17 @@ def write_fwf_file(
             outfile.write(f"{data_row}\n")
 
 
-spec = Spec("spec.json")
+if __name__ == "__main__":
 
-# generate example data_rows
-# [['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'],
-# ['k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't'],
-# ['u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~']]
-data = [chr(ord("a") + i) for i in range(len(spec.columns) * 3)]
-num_cols = len(spec.columns)
-num_rows = len(data) // num_cols
-data_rows = [data[num_cols * i : num_cols * (i + 1)] for i in range(num_rows)]
+    spec = Spec("spec.json")
 
-write_fwf_file(data_rows, spec, header=True)
+    # generate example data_rows
+    # [['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'],
+    # ['k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't'],
+    # ['u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~']]
+    data = [chr(ord("a") + i) for i in range(len(spec.columns) * 3)]
+    num_cols = len(spec.columns)
+    num_rows = len(data) // num_cols
+    data_rows = [data[num_cols * i : num_cols * (i + 1)] for i in range(num_rows)]
+
+    write_fwf_file(data_rows, spec, header=True)
