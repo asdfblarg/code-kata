@@ -5,9 +5,12 @@ import argparse
 def read_fwf_file(input_fn: str, spec: type[Spec]):
     """Read fixed width file and return data list"""
     lines = []
-    with open(input_fn, "r", encoding=spec.fixed_width_encoding) as file:
-        lines = file.readlines()
-    return [line.strip() for line in lines]
+    try:
+        with open(input_fn, "r", encoding=spec.fixed_width_encoding) as file:
+            lines = file.readlines()
+        return [line.strip("\n") for line in lines]
+    except:
+        raise Exception("Error reading in: '{input_fn}'")
 
 
 def parse_fwf_row(row_data: list[str], spec: type[Spec]):
@@ -39,11 +42,11 @@ def write_csv(filename: str, data: list[list[str]], spec: type[Spec], delimiter=
     """Write parsed fwf data into delimited csv file"""
     with open(filename, "w", encoding=spec.delimited_encoding) as file:
         if spec.include_header:
-            header_row = ",".join(spec.column_names)
+            header_row = delimiter.join(spec.column_names)
             file.write(f"{header_row}\n")
 
         for row in data:
-            row_data = ",".join(row)
+            row_data = delimiter.join(row)
             file.write(f"{row_data}\n")
 
     print(f"Data parsed into: {filename}")
