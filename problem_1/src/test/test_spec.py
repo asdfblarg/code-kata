@@ -6,19 +6,19 @@ import json
 @pytest.fixture
 def spec():
     """Fixture spec"""
-    return Spec("test/test_spec.json")
+    return Spec("src/test/test_spec.json")
 
 
 @pytest.fixture
 def spec_json():
     """Fixture for spec json"""
-    return load_spec_json("test/test_spec.json")
+    return load_spec_json("src/test/test_spec.json")
 
 
 @pytest.fixture
 def bad_spec_json():
     """Bad spec data with extra ColumnName"""
-    return "test/test_spec_bad.json"
+    return "src/test/test_spec_bad.json"
 
 
 def test_load_spec(spec, spec_json):

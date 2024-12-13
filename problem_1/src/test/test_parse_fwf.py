@@ -8,13 +8,13 @@ from unittest.mock import patch, mock_open
 @pytest.fixture
 def spec():
     """Fixture spec"""
-    return Spec("test/test_spec.json")
+    return Spec("src/test/test_spec.json")
 
 
 @pytest.fixture
 def test_fwf():
     """Fixture spec"""
-    return "test/test.fwf"
+    return "src/test/test.fwf"
 
 
 @pytest.fixture
