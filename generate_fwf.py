@@ -19,7 +19,7 @@ def generate_fwf_line(row_data: list[str], cols_data: dict):
 def write_fwf_file(
     data_rows: list[list[str]],
     spec: type[Spec],
-    output_filename: str = "text.fwf",
+    output_filename: str = "output.fwf",
     header: bool = True,
 ):
     """Generate fixed width file"""
