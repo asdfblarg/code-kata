@@ -8,10 +8,10 @@ def append_csv(input_file: str, output_file: str, num_times: int = 2):
     df = dd.read_csv(input_file)
 
     # Concat dataframe with itself num_times
+    appended_df = df
     if num_times > 0:
         # We always need num_times-1 loops as we already have initial df
         num_concats = num_times - 1
-        appended_df = df
         for i in range(num_concats):
             appended_df = dd.concat([appended_df, df])
 
