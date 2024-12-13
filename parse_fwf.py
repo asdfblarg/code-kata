@@ -1,32 +1,18 @@
-import json
-
-with open("spec.json") as file:
-    spec = json.load(file)
+from spec import Spec
 
 
-col_names = spec["ColumnNames"]
-offsets = spec["Offsets"]
-fw_enc = spec["FixedWidthEncoding"]
-header = spec["IncludeHeader"]
-delimit_enc = spec["DelimitedEncoding"]
-
-cols_spec = {}
-for i in range(len(col_names)):
-    cols_spec[i] = (col_names[i], int(offsets[i]))
-
-
-def read_fwf_file(input_fn, input_enc):
+def read_fwf_file(input_fn: str, spec: type[Spec]):
     lines = []
-    with open(input_fn, "r", encoding=input_enc) as file:
+    with open(input_fn, "r", encoding=spec.fixed_width_encoding) as file:
         lines = file.readlines()
     return [line.strip() for line in lines]
 
 
-def parse_fwf_row(row_data, cols_spec):
+def parse_fwf_row(row_data: list[str], spec: type[Spec]):
     cur = 0
     data = []
-    for i in range(len(cols_spec)):
-        col_name, col_width = cols_spec[i]
+    for i in range(spec.num_columns):
+        col_name, col_width = spec.columns[i]
 
         col_data = row_data[cur : cur + col_width]
         data.append(col_data.strip())
@@ -35,19 +21,19 @@ def parse_fwf_row(row_data, cols_spec):
     return data
 
 
-def parse_data(rows_data, cols_spec):
+def parse_data(rows_data: list[str], spec: type[Spec]):
     parsed_data = []
     for row in rows_data:
         if row:
-            parsed_row = parse_fwf_row(row, cols_spec)
+            parsed_row = parse_fwf_row(row, spec)
             parsed_data.append(parsed_row)
     return parsed_data
 
 
-def write_csv(filename, data, output_enc, header, delimiter=","):
-    with open(filename, "w", encoding=output_enc) as file:
-        if header:
-            header_row = ",".join(col_names)
+def write_csv(filename: str, data: list[list[str]], spec: type[Spec], delimiter=","):
+    with open(filename, "w", encoding=spec.delimited_encoding) as file:
+        if spec.include_header:
+            header_row = ",".join(spec.column_names)
             file.write(f"{header_row}\n")
 
         for row in data:
@@ -57,12 +43,14 @@ def write_csv(filename, data, output_enc, header, delimiter=","):
     print(f"Data parsed into: {filename}")
 
 
-fwf_fn = "text.fwf"
-fwf_rows = read_fwf_file(fwf_fn, fw_enc)
+spec = Spec("spec.json")
 
-if header:
+fwf_filename = "text.fwf"
+fwf_rows = read_fwf_file(fwf_filename, spec)
+
+if spec.include_header:
     header_row = fwf_rows[0]
     fwf_rows = fwf_rows[1:]
 
-parsed_data = parse_data(fwf_rows, cols_spec)
-write_csv("fwf_data.csv", parsed_data, delimit_enc, header)
+parsed_data = parse_data(fwf_rows, spec)
+write_csv("fwf_data.csv", parsed_data, spec)

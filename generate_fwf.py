@@ -1,13 +1,8 @@
-import json
+from spec import Spec
 
 
-def load_spec_json(json_fn):
-    with open(json_fn) as file:
-        spec = json.load(file)
-    return spec
-
-
-def generate_line(row_data, cols_data):
+def generate_fwf_line(row_data: list[str], cols_data: dict):
+    """Convert list of strings to fixed width string"""
     line = ""
     for i in range(len(cols_data)):
         col_name, col_width = cols_data[i]
@@ -21,33 +16,33 @@ def generate_line(row_data, cols_data):
     return line
 
 
-def write_file(cols_spec, data_rows, output_filename="text.fwf", header=True):
-    with open(output_filename, "w", encoding=fw_enc) as outfile:
+def write_fwf_file(
+    data_rows: list[list[str]],
+    spec: type[Spec],
+    output_filename: str = "text.fwf",
+    header: bool = True,
+):
+    """Generate fixed width file"""
+    with open(output_filename, "w", encoding=spec.fixed_width_encoding) as outfile:
+        # write header
         if header:
-            header_row = generate_line(col_names, cols_spec)
+            header_row = generate_fwf_line(spec.column_names, spec.columns)
             outfile.write(f"{header_row}\n")
-
+        # write row data
         for row in data_rows:
-            data_row = generate_line(row, cols_spec)
+            data_row = generate_fwf_line(row, spec.columns)
             outfile.write(f"{data_row}\n")
 
 
-spec = load_spec_json("spec.json")
+spec = Spec("spec.json")
 
-col_names = spec["ColumnNames"]
-offsets = spec["Offsets"]
-fw_enc = spec["FixedWidthEncoding"]
-header = spec["IncludeHeader"]
-delimit_enc = spec["DelimitedEncoding"]
-
-cols_spec = {}
-for i in range(len(col_names)):
-    cols_spec[i] = (col_names[i], int(offsets[i]))
-
-# generate test data
-data = [chr(ord("a") + i) for i in range(len(cols_spec) * 3)]
-num_cols = len(cols_spec)
+# generate example data_rows
+# [['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'],
+# ['k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't'],
+# ['u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~']]
+data = [chr(ord("a") + i) for i in range(len(spec.columns) * 3)]
+num_cols = len(spec.columns)
 num_rows = len(data) // num_cols
 data_rows = [data[num_cols * i : num_cols * (i + 1)] for i in range(num_rows)]
 
-write_file(cols_spec, data_rows, header=True)
+write_fwf_file(data_rows, spec, header=True)
