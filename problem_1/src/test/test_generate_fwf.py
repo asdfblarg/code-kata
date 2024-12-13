@@ -6,7 +6,7 @@ from spec import Spec
 @pytest.fixture
 def spec():
     """Fixture spec"""
-    return Spec("test_spec.json")
+    return Spec("test/test_spec.json")
 
 
 def test_generate_fwf_line(spec):

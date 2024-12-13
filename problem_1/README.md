@@ -18,3 +18,6 @@
 
 ## Parse a fixed width file to an output csv
 `python parse_fwf.py -f output.fwf -o output.csv -s spec.json`
+
+## Run tests
+`python -m pytest -v`
