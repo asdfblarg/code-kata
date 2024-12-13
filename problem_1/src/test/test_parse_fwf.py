@@ -1,8 +1,9 @@
-import pytest
 import json
-from parse_fwf import read_fwf_file, parse_data, write_csv
+from unittest.mock import mock_open, patch
+
+import pytest
+from parse_fwf import parse_data, read_fwf_file, write_csv
 from spec import Spec
-from unittest.mock import patch, mock_open
 
 
 @pytest.fixture

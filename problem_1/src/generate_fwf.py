@@ -1,5 +1,6 @@
-from spec import Spec
 import argparse
+
+from spec import Spec
 
 
 def generate_fwf_line(row_data: list[str], cols_data: dict):

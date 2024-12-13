@@ -1,5 +1,6 @@
-from spec import Spec
 import argparse
+
+from spec import Spec
 
 
 def read_fwf_file(input_fn: str, spec: type[Spec]):

@@ -1,6 +1,7 @@
+import json
+
 import pytest
 from spec import Spec, load_spec_json
-import json
 
 
 @pytest.fixture
