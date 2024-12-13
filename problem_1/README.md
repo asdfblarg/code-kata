@@ -29,8 +29,8 @@ or
 ## Docker container
 You can run docker a docker container with something like the following:
 ```
-sudo docker build -t test .
-sudo docker run -it test /bin/bash -c "/bin/bash"
+sudo docker build -t fwf-parse .
+sudo docker run -it fwf-parse /bin/bash -c "/bin/bash"
 ```
 One inside the container you can run the following as a quick test:
 ```
