@@ -1,4 +1,5 @@
 from spec import Spec
+import argparse
 
 
 def read_fwf_file(input_fn: str, spec: type[Spec]):
@@ -43,14 +44,31 @@ def write_csv(filename: str, data: list[list[str]], spec: type[Spec], delimiter=
     print(f"Data parsed into: {filename}")
 
 
-spec = Spec("spec.json")
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="This script parses a fixed width file and writes a delimited csv file."
+    )
+    parser.add_argument(
+        "-f", "--file", help="Input fixed width file name", required=True
+    )
+    parser.add_argument(
+        "-o", "--output", help="Output delimited csv file name", required=True
+    )
+    parser.add_argument("-s", "--spec", help="Spec json file name", default="spec.json")
+    parser.add_argument("-d", "--delimiter", help="Spec json file name", default=",")
+    args = parser.parse_args()
 
-fwf_filename = "text.fwf"
-fwf_rows = read_fwf_file(fwf_filename, spec)
+    fwf_filename = args.file
+    csv_filename = args.output
+    spec_file = args.spec
+    delimiter = args.delimiter
 
-if spec.include_header:
-    header_row = fwf_rows[0]
-    fwf_rows = fwf_rows[1:]
+    spec = Spec(spec_file)
 
-parsed_data = parse_data(fwf_rows, spec)
-write_csv("fwf_data.csv", parsed_data, spec)
+    fwf_rows = read_fwf_file(fwf_filename, spec)
+
+    if spec.include_header:
+        fwf_rows = fwf_rows[1:]
+
+    parsed_data = parse_data(fwf_rows, spec)
+    write_csv(csv_filename, parsed_data, spec, delimiter=delimiter)
