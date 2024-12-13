@@ -15,7 +15,7 @@ def read_input_csv(input_file: str):
     return dd.read_csv(input_file)
 
 
-def write_output_csv(output_file: str):
+def write_output_csv(df, output_file: str):
     """Read in input csv"""
     df.to_csv(output_file, index=False, single_file=True)
 
@@ -28,7 +28,7 @@ def anonymize_with_hashing(input_file: str, output_file: str, cols: list[str]):
     for col in cols:
         df[col] = df[col].map_partitions(lambda partition: partition.apply(hash_value))
 
-    write_output_csv(output_file)
+    write_output_csv(df, output_file)
 
 
 if __name__ == "__main__":
