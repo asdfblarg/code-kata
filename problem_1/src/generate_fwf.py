@@ -1,4 +1,5 @@
 from spec import Spec
+import argparse
 
 
 def generate_fwf_line(row_data: list[str], cols_data: dict):
@@ -33,10 +34,23 @@ def write_fwf_file(
             data_row = generate_fwf_line(row, spec.columns)
             outfile.write(f"{data_row}\n")
 
+        print(f"Generated '{output_filename}'")
+
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="This script generates a quick test fixed width file"
+    )
+    parser.add_argument(
+        "-o", "--output", help="Output delimited csv file name", default="output.fwf"
+    )
+    parser.add_argument("-s", "--spec", help="Spec json file name", default="spec.json")
+    args = parser.parse_args()
 
-    spec = Spec("spec.json")
+    output_filename = args.output
+    spec_json_file = args.spec
+
+    spec = Spec(spec_json_file)
 
     # generate example data_rows
     # [['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'],
@@ -47,4 +61,4 @@ if __name__ == "__main__":
     num_rows = len(data) // num_cols
     data_rows = [data[num_cols * i : num_cols * (i + 1)] for i in range(num_rows)]
 
-    write_fwf_file(data_rows, spec, header=True)
+    write_fwf_file(data_rows, spec, output_filename, header=True)

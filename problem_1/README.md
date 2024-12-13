@@ -11,13 +11,13 @@
 - Pay attention to encoding
 
 ### Install
-`pip install -r requirements.txt`
+```pip install -r requirements.txt```
 
 ### Create a test fixed width file with a spec.json
-`python generate_fwf.py`
+```python generate_fwf.py -o output.fwf -s spec.json```
 
 ### Parse a fixed width file to an output csv
-`python parse_fwf.py -f output.fwf -o output.csv -s spec.json`
+```python parse_fwf.py -f output.fwf -o output.csv -s spec.json```
 
 ### Run tests
-`python -m pytest -v`
+```python -m pytest -v```
