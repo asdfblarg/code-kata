@@ -3,6 +3,7 @@ import argparse
 
 
 def read_fwf_file(input_fn: str, spec: type[Spec]):
+    """Read fixed width file and return data list"""
     lines = []
     with open(input_fn, "r", encoding=spec.fixed_width_encoding) as file:
         lines = file.readlines()
@@ -10,6 +11,7 @@ def read_fwf_file(input_fn: str, spec: type[Spec]):
 
 
 def parse_fwf_row(row_data: list[str], spec: type[Spec]):
+    """Parse fixed width row data into list of strings"""
     cur = 0
     data = []
     for i in range(spec.num_columns):
@@ -23,8 +25,10 @@ def parse_fwf_row(row_data: list[str], spec: type[Spec]):
 
 
 def parse_data(rows_data: list[str], spec: type[Spec]):
+    """Parse all fwf rows into list of strings"""
     parsed_data = []
     for row in rows_data:
+        # only include non-empty rows
         if row:
             parsed_row = parse_fwf_row(row, spec)
             parsed_data.append(parsed_row)
@@ -32,6 +36,7 @@ def parse_data(rows_data: list[str], spec: type[Spec]):
 
 
 def write_csv(filename: str, data: list[list[str]], spec: type[Spec], delimiter=","):
+    """Write parsed fwf data into delimited csv file"""
     with open(filename, "w", encoding=spec.delimited_encoding) as file:
         if spec.include_header:
             header_row = ",".join(spec.column_names)
