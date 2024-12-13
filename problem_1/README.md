@@ -10,14 +10,14 @@
 - Bonus points if you deliver a docker container (Dockerfile) that can be used to run the code (too lazy to install stuff that you might use)
 - Pay attention to encoding
 
-## Install
+### Install
 `pip install -r requirements.txt`
 
-## Create a test fixed width file with a spec.json
+### Create a test fixed width file with a spec.json
 `python generate_fwf.py`
 
-## Parse a fixed width file to an output csv
+### Parse a fixed width file to an output csv
 `python parse_fwf.py -f output.fwf -o output.csv -s spec.json`
 
-## Run tests
+### Run tests
 `python -m pytest -v`
