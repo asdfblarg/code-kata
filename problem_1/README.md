@@ -15,9 +15,25 @@
 
 ### Create a test fixed width file with a spec.json
 ```python generate_fwf.py -o output.fwf -s spec.json```
+Use the `-h` flag for more details
 
 ### Parse a fixed width file to an output csv
 ```python parse_fwf.py -f output.fwf -o output.csv -s spec.json```
+Use the `-h` flag for more details
 
 ### Run tests
-```python -m pytest -v```
+```python -m pytest```
+or
+```pytest```
+
+## Docker container
+You can run docker a docker container with something like the following:
+```
+sudo docker build -t test .
+sudo docker run -it test /bin/bash -c "/bin/bash"
+```
+One inside the container you can run the following as a quick test:
+```
+python src/generate_fwf.py -o output.fwf -s src/spec.json
+python src/parse_fwf.py -f output.fwf -o output.csv -s src/spec.json
+```
