@@ -10,7 +10,7 @@
 - Bonus points if you deliver a docker container (Dockerfile) that can be used to run the code (too lazy to install stuff that you might use)
 - Pay attention to encoding
 
-### Install
+## Install
 ```pip install -r requirements.txt```
 
 ### Create a test fixed width file with a spec.json
