@@ -6,7 +6,7 @@ class Spec:
         self.spec_data: str = load_spec_json(spec_file)
         self.column_names: list[str] = self.spec_data["ColumnNames"]
         self.offsets: list[str] = self.spec_data["Offsets"]
-        self.fixed_width_encoding: str: = self.spec_data["FixedWidthEncoding"]
+        self.fixed_width_encoding: str = self.spec_data["FixedWidthEncoding"]
         self.include_header: bool = self.spec_data["IncludeHeader"]
         self.delimited_encoding: str = self.spec_data["DelimitedEncoding"]
 
