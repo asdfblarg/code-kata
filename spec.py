@@ -3,22 +3,22 @@ import json
 
 class Spec:
     def __init__(self, spec_file: str):
-        self.spec_data = load_spec_json(spec_file)
-        self.column_names = self.spec_data["ColumnNames"]
-        self.offsets = self.spec_data["Offsets"]
-        self.fixed_width_encoding = self.spec_data["FixedWidthEncoding"]
-        self.include_header = self.spec_data["IncludeHeader"]
-        self.delimited_encoding = self.spec_data["DelimitedEncoding"]
+        self.spec_data: str = load_spec_json(spec_file)
+        self.column_names: list[str] = self.spec_data["ColumnNames"]
+        self.offsets: list[str] = self.spec_data["Offsets"]
+        self.fixed_width_encoding: str: = self.spec_data["FixedWidthEncoding"]
+        self.include_header: bool = self.spec_data["IncludeHeader"]
+        self.delimited_encoding: str = self.spec_data["DelimitedEncoding"]
 
         if len(self.column_names) != len(self.offsets):
             raise Exception(f"Spec ColumnNames and Offsets are different lengths")
 
         # Create dict with key: column_index, value: tuple(column_name, column_width)
-        self.columns = {}
+        self.columns: dict = {}
         for i in range(len(self.column_names)):
             self.columns[i] = (self.column_names[i], int(self.offsets[i]))
 
-        self.num_columns = len(self.columns)
+        self.num_columns: int = len(self.columns)
 
 
 def load_spec_json(spec_file: str):
